@@ -1,0 +1,14 @@
+---
+# tasks file for zshrc
+
+- name: "[Exegol:zsh] zshrc"
+  ansible.builtin.copy:
+    src: zshrc
+    dest: "{{ exegol.my_resources }}/setup/zsh/zshrc"
+    mode: '0400'
+
+- name: "[Exegol:zsh] aliases"
+  ansible.builtin.copy:
+    src: aliases
+    dest: "{{ exegol.my_resources }}/setup/zsh/aliases"
+    mode: '0400'

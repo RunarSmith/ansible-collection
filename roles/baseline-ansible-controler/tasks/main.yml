@@ -1,0 +1,18 @@
+---
+# tasks file for baseline-controller
+
+
+
+- name: "[Baseline-controler] Install controller packages"
+  become: true
+  ansible.builtin.apt:
+    name:
+        - ansible
+        - sshpass
+    state: present
+  tags:
+  - apt
+
+- name: "[Baseline-controler] Install stormssh module"
+  pip:
+    name: stormssh

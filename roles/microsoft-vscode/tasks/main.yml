@@ -1,0 +1,18 @@
+---
+# tasks file for microsoft-vscode
+
+- name: "[MS VSCode] Remove vscodium"
+  become: true
+  apt:
+    name: 
+    - vscodium
+    - codium
+    state: absent
+    autoremove: yes
+
+- name: "[MS VSCode] Include Setup Microsoft repository"
+  include_tasks: setup-ms-repo.yml
+
+- name: "[MS VSCode] Include Setup user config"
+  include_tasks: user-ms_vscode.yml
+

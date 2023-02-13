@@ -1,0 +1,28 @@
+---
+# tasks file for user-git
+
+- name: "[Git] install git"
+  ansible.builtin.apt:
+    name: git
+    state: present
+
+- name: "[Git] user config: default username"
+  command: git config --global user.name "{{ git_user.username }}"
+
+- name: "[Git] user config: default email"
+  # become: yes
+  # become_user: kali
+  command: git config --global user.email "{{ git_user.email }}"
+
+- name: "[Git] user config: enable user credential storage"
+  # become: yes
+  # become_user: kali
+  command: git config --global credential.helper store
+
+- name:  "[Git] user config: default credentials"
+  # become: yes
+  # become_user: kali
+  ansible.builtin.template:
+    src: git-credentials.j2
+    dest: "{{ ansible_user_dir }}/.git-credentials"
+    mode: '0400'

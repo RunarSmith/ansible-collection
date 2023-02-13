@@ -1,0 +1,14 @@
+---
+# defaults file for microsoft-vscode
+
+# Extensions for VS Code
+vscode_extensions:
+  # Language extensions
+  - ms-python.python
+  - ms-vscode.powershell
+  # framework
+  - redhat.ansible
+  # Utility extensions
+  - ms-ceintl.vscode-language-pack-fr
+  # UI
+  - silofy.hackthebox

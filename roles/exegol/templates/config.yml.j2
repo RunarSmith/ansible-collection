@@ -1,0 +1,35 @@
+# Exegol configuration
+
+# Volume path can be changed at any time but existing containers will not be affected by the update
+volumes:
+    # The my-resources volume is a storage space dedicated to the user to customize his environment and tools. This volume can be shared across all exegol containers.
+    # Attention! The permissions of this folder (and subfolders) will be updated to share read/write rights between the host (user) and the container (root). Do not modify this path to a folder on which the permissions (chmod) should not be modified.
+    my_resources_path: {{ exegol.my_resources }}
+    
+    # Exegol resources are data and static tools downloaded in addition to docker images. These tools are complementary and are accessible directly from the host.
+    exegol_resources_path: {{ exegol.exegol_resources }}
+    
+    # When containers do not have an explicitly declared workspace, a dedicated folder will be created at this location to share the workspace with the host but also to save the data after deleting the container
+    private_workspace_path: {{ exegol.workspaces }}
+
+config:
+    # Enables automatic check for wrapper updates
+    auto_check_update: False
+    
+    # Automatically remove outdated image when they are no longer used
+    auto_remove_image: True
+    
+    # Automatically modifies the permissions of folders and sub-folders in your workspace by default to enable file sharing between the container with your host user.
+    auto_update_workspace_fs: False
+    
+    # Default shell command to start
+    default_start_shell: zsh
+    
+    # Change the configuration of the shell logging functionality
+    shell_logging: 
+        #Choice of the method used to record the sessions (script or asciinema)
+        logging_method: asciinema
+        
+        # Enable automatic compression of log files (with gzip)
+        enable_log_compression: True
+

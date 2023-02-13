@@ -1,0 +1,33 @@
+---
+# tasks file for office
+
+#- name: include variables
+#  ansible.builtin.include_vars: main.yml
+
+- name: "[APT] Install packages"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ apt_deb_packages }}"
+    state: present
+  
+- name: "[APT] Install packages from URL"
+  become: true
+  ansible.builtin.apt:
+    deb: "{{ item }}"
+    state: present
+  loop: "{{ apt_deb_url }}"
+  
+- name: "[APT] Remove unwanted packages"
+  become: true
+  ansible.builtin.apt:
+    name: "{{ apt_deb_remove }}"
+    autoclean:  yes
+    purge:      yes
+    state:      absent
+
+- name: "[APT] Auto remove packages"
+  become: true
+  ansible.builtin.apt:
+    autoclean:  yes
+    autoremove: yes
+

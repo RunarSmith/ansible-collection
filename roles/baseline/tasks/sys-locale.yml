@@ -1,0 +1,51 @@
+---
+
+- name: "[Baseline:locale] Ensure localisation files for '{{ locale_system }}' are available"
+  become: true
+  locale_gen:
+    name: "{{ locale_system }}"
+    state: present
+
+- name: "[Baseline:locale] Ensure localisation files for '{{ locale_system_language }}' are available"
+  become: true
+  locale_gen:
+    name: "{{ locale_system_language }}"
+    state: present
+
+- name: "[Baseline:locale] Get current locale and language configuration"
+  command: localectl status
+  register: locale_status
+  changed_when: false
+
+- name: "[Baseline:locale] Parse 'LANG' from current locale and language configuration"
+  set_fact:
+    locale_lang: "{{ locale_status.stdout | regex_search('LANG=([^\n]+)', '\\1') | first }}"
+
+- name: "[Baseline:locale] Parse 'LANGUAGE' from current locale and language configuration"
+  set_fact:
+    locale_language: "{{ locale_status.stdout | regex_search('LANGUAGE=([^\n]+)', '\\1') | default([locale_lang], true) | first }}"
+
+- name: "[Baseline:locale] Configure locale to '{{ locale_system }}' and language to '{{ locale_system_language }}'"
+  become: true
+  command: localectl set-locale LANG={{ locale_system }} LANGUAGE={{ locale_system_language }}
+  changed_when: locale_lang != locale_system or locale_language != locale_system_language
+
+# tasks file for keyboard_configuration
+- name: "[Baseline:locale] install package for keyboard layout"
+  become: true
+  apt:
+    name: keyboard-configuration
+    state: present
+
+- name: "[Baseline:locale] Set Keyboard layout"
+  become: true
+  lineinfile:
+    path: /etc/default/keyboard
+    regexp: '^.*XKBLAYOUT.*'
+    line: 'XKBLAYOUT="{{ locale_keyboard_layout }}"'
+    state: present
+
+- name: "[Baseline:locale] Set timezone"
+  become: true
+  timezone:
+    name: "{{ locale_timezone }}"

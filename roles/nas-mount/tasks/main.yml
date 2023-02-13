@@ -1,0 +1,47 @@
+---
+# tasks file for mnt-nas
+
+- name: "[NAS] Install cifs package"
+  become: true
+  ansible.builtin.apt:
+    name: "cifs-utils"
+    state: present
+  tags:
+  - nas
+
+- name: "[NAS] Copy credential file"
+  become: true
+  #become_user: kali
+  ansible.builtin.template:
+    src:    sys-mnt-nas.j2
+    dest:   /opt/.smb_nas
+    owner:  "{{ ansible_user_id }}"
+    group:  "{{ ansible_user_id }}"
+    mode:   '0400'
+    force: yes
+  tags:
+  - nas
+
+- name: "[NAS] Create mount point"
+  become: true
+  #become_user: kali
+  file:
+    path: "{{ mount_nas.mount_point }}"
+    state: directory
+    mode: '0777'
+  tags:
+  - nas
+
+- name: "[NAS] Mount Shared volume"
+  become: true
+  mount:
+    src:    "//{{ mount_nas.hostname }}/{{ mount_nas.shared }}"
+    path:   "{{ mount_nas.mount_point }}"
+    fstype: cifs
+    # noauto : pas de montage auto, le partage sera monté lorsque nécessaire)
+    # x-systemd.automount : montage lorsque le réseau sera prêt (gestion des dépendences via systemd)
+    opts:   rw,relatime,user,credentials=/opt/.smb_nas,uid=1000,gid=1000,noauto,x-systemd.automount 
+    #state:  present
+    state:  mounted
+  tags:
+  - nas

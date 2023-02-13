@@ -1,0 +1,9 @@
+---
+# defaults file for baseline
+
+locale_system: fr_FR.UTF-8
+locale_system_language: fr_FR
+
+locale_keyboard_layout: fr
+
+locale_timezone: Europe/Paris

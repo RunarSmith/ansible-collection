@@ -1,0 +1,15 @@
+# tasks file
+---
+
+- name: "[Baseline:mlocate] Install"
+  become: true
+  apt:
+    name: "mlocate"
+    state: "latest"
+  tags:
+    - updatedb
+
+- name: "[Baseline:mlocate] Update updatedb"
+  become: true
+  command:
+    cmd: updatedb

@@ -1,0 +1,8 @@
+---
+
+- name: "[VirtualBox] Allow access to shared folders for user"
+  become: true
+  ansible.builtin.user:
+    name: "{{ ansible_user_id }}"
+    groups: vboxsf
+    append: yes

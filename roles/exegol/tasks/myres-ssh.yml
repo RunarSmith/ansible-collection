@@ -1,0 +1,17 @@
+---
+# tasks file for zshrc
+
+- name: "[Exegol:ssh] create ssh directory"
+  become: true
+  ansible.builtin.file:
+    path: "{{ exegol.my_resources }}/setup/ssh"
+    state: directory
+    mode: '0744'
+    
+
+- name: "[Exegol:ssh] ssh"
+  become: true
+  ansible.builtin.copy:
+    src: ssh_config
+    dest: "{{ exegol.my_resources }}/setup/ssh/config"
+    mode: '0744'

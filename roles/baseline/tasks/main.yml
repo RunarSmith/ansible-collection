@@ -1,0 +1,12 @@
+---
+# tasks file for baseline
+
+- name: Baseline
+  include_tasks: sys-locale.yml
+        
+- name: Baseline
+  include_tasks: apt-mirrors.yml
+  
+- name: Baseline
+  include_tasks: sys-mlocate.yml
+
