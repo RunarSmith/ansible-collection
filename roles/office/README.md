@@ -1,22 +1,50 @@
-Role Name
-=========
+office
+======
 
-A brief description of the role goes here.
+Install packages, and remove useless packages.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Nothing special.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+Check the `default/main.yml` for the list of installed packages, and remove ones.
+
+Packages can be installed from apt repository, or from an URL (ex: deb package released on github).
+
+This install :
+- remmina : for RDP
+- flameshot : for screenshot taking with annotations
+- obsidian : for notes
+
+This remove:
+- office packages
+- games packages
+- some other fat useless packages
+
+```yaml
+apt_deb_packages:
+  - remmina
+
+apt_deb_url:
+  - https://github.com/flameshot-org/flameshot/releases/download/v12.1.0/flameshot-12.1.0-1.debian-11.amd64.deb
+  - https://github.com/obsidianmd/obsidian-releases/releases/download/v1.0.3/obsidian_1.0.3_amd64.deb
+
+apt_deb_remove:
+   - anonsurf*
+   - brasero*
+   - geany*
+   - gimp*
+   - libreoffice*
+```
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+Nothing special
 
 Example Playbook
 ----------------
@@ -25,14 +53,11 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers
       roles:
-         - { role: username.rolename, x: 42 }
+         - runarsmith.ansible_collection.office
 
 License
 -------
 
-BSD
 
 Author Information
 ------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).

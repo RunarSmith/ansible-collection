@@ -1,0 +1,13 @@
+---
+# tasks file for user-git
+
+- name: "[Git] install git"
+  ansible.builtin.apt:
+    name: git
+    state: present
+
+- name: "[Git] user config: default username"
+  command: git config --global user.name "{{ git_user.username }}"
+
+- name: "[Git] user config: default email"
+  command: git config --global user.email "{{ git_user.email }}"
