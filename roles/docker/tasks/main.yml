@@ -1,0 +1,11 @@
+---
+# tasks file for docker
+
+- name: "[Docker] Install packages"
+  become: true
+  apt:
+    name: 
+    - docker
+    - docker.io
+    - docker-compose
+    state: present
