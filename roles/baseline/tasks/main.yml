@@ -10,3 +10,5 @@
 - name: Baseline
   include_tasks: sys-mlocate.yml
 
+- name: Baseline
+  include_tasks: sys-unattended-upgrades.yml

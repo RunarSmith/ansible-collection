@@ -1,3 +1,5 @@
+---
+
 # The namespace of the collection
 namespace: runarsmith
 
@@ -54,3 +56,4 @@ issues: https://github.com/RunarSmith/ansible-collection
 # and '.git' are always filtered
 build_ignore: []
 
+...
