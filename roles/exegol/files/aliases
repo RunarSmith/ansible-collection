@@ -1,3 +1,2 @@
 
-alias u='cd ..'
-
+alias rvpn='killall openvpn && openvpn --log-append /var/log/exegol/vpn.log --config /.exegol/vpn/config/client.ovpn &'
