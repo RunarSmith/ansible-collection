@@ -5,22 +5,25 @@
 vscode_extensions:
   # Language extensions
   - ms-python.python
-  - ms-vscode.powershell
+  #- ms-vscode.powershell
   - yzhang.markdown-all-in-one
   - jebbs.markdown-extended
   # slides / presentations
-  - marp-team.marp-vscode
+  #- marp-team.marp-vscode
   # notes in markdonw
   - foam.foam-vscode
   # framework
   - redhat.ansible
+  # Ansible snippets
+  - srobert0560.sr-ansible-snippets
   # Utility extensions
   - ms-ceintl.vscode-language-pack-fr
   # UI
   - silofy.hackthebox
   - esbenp.prettier-vscode
-  - VisualStudioExptTeam.vscodeintellicode
+  #- VisualStudioExptTeam.vscodeintellicode
   # git
   - mhutchie.git-graph
   # Draw.io
   - hediet.vscode-drawio
+  

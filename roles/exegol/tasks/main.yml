@@ -1,21 +1,6 @@
 ---
 # tasks file for exegol
 
-- name: "[Exegol] Install packages"
-  become: true
-  apt:
-    name: 
-    - docker
-    - docker.io
-    state: present
-
-- name: "[Exegol] Allow user to access docker"
-  become: true
-  ansible.builtin.user:
-    name: "{{ ansible_user_id }}"
-    groups: docker
-    append: yes
-
 - name: "[Exegol] Enable docker service"
   become: true
   service:
@@ -42,6 +27,8 @@
     group: "{{ ansible_user_id }}"
   loop:
     - "{{ exegol.my_resources }}"
+    - "{{ exegol.my_resources }}/bin"
+    - "{{ exegol.my_resources }}/setup"
     - "{{ exegol.exegol_resources }}"
 
 - name: "[Exegol] Test if folder exists"
@@ -89,6 +76,14 @@
   pip:
     name: exegol
     state: latest
+  when: ansible_os_family == "Parrot OS"
+
+- name: "[Exegol] Install exegol via apt"
+  become: true
+  apt:
+    name: exegol
+    state: present
+  when: ansible_lsb.id == "Kaisen"
 
 - name: "[Exegol] Copy custom load_user_setup.sh"
   ansible.builtin.copy:

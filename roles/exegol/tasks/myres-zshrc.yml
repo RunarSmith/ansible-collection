@@ -1,6 +1,14 @@
 ---
 # tasks file for zshrc
 
+- name: "[Exegol] Create exegol directories for ZSH configuration"
+  ansible.builtin.file:
+    path: "{{ exegol.my_resources }}/setup/zsh"
+    state: directory
+    mode: '0740'
+    recurse: yes
+
+
 - name: "[Exegol:zsh] zshrc"
   ansible.builtin.copy:
     src: zshrc

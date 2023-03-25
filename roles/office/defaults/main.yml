@@ -9,8 +9,8 @@ apt_deb_url:
   - https://github.com/obsidianmd/obsidian-releases/releases/download/v1.1.16/obsidian_1.1.16_amd64.deb
 
 apt_deb_remove:
-   - anonsurf*
-   - blueman
+   #- anonsurf*
+   #- blueman
    - brasero*
    - geany*
    - gimp*

@@ -11,6 +11,4 @@
   tags:
   - apt
 
-- name: "[Baseline-controler] Install stormssh module"
-  pip:
-    name: stormssh
+

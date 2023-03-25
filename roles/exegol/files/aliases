@@ -1,2 +1,9 @@
+# list all aliases, and show them in a nice table
+alias aliasl="alias | sed 's/^alias //g' | grep -vE '^aliasl=' | sed \"s/='/#/\" | sed \"s/'\$//g\" | sort | column -t -s '#'"
 
+# restart VPN
 alias rvpn='killall openvpn && openvpn --log-append /var/log/exegol/vpn.log --config /.exegol/vpn/config/client.ovpn &'
+
+# quick nmap: can to find open TCP ports, then deeper scan on these ports
+alias scan-target-quick='open_port_list=$(nmap -p- "${TARGET}" -Pn --min-rate=1000 -T4 | grep -o "^[0-9]*" | tr "\n" "," | sed "s/,$//"); echo "Open ports: ${open_port_list}\n"; nmap -sC -sV "$TARGET" -p${open_port_list} -oA "nmap-${TARGET}"'
+

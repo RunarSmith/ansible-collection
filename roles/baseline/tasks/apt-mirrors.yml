@@ -1,10 +1,10 @@
 ---
 # tasks file for apt-mirrors
 
-- name: "[APT-mirrors] Add i386 architectures"
-  become: true
-  command:
-    cmd: dpkg --add-architecture i386
+#- name: "[APT-mirrors] Add i386 architectures"
+#  become: true
+#  command:
+#    cmd: dpkg --add-architecture i386
 
 # add local mirrors from :
 # https://www.parrotsec.org/docs/mirrors/mirrors-list/#emea-europe-middle-east-and-africa
@@ -16,16 +16,6 @@
     owner: root
     group: root
     mode: "0644"
-  when: ansible_os_family == "Parrot OS"
   tags:
   - apt
 
-- name: "[APT-mirrors] Updates debian-like systems"
-  become: true
-  ansible.builtin.apt: 
-    autoclean: yes
-    autoremove: yes
-    update_cache: yes
-    upgrade: full
-  tags:
-  - apt
