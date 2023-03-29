@@ -3,69 +3,69 @@
 
 # dconf dump /org/mate/
 
-- name: "[Desktop] Install cinnamon packages"
+- name: "[Desktop] Install mate packages"
   become: true
   apt:
     name: 
     - kaisen-mate
     state: present
 
-- name: Disable desktop effects in Cinnamon
-  community.general.dconf:
-    key: "/org/cinnamon/desktop-effects"
-    value: "false"
-    state: present
+#- name: Disable desktop effects in Cinnamon
+#  community.general.dconf:
+#    key: "/org/cinnamon/desktop-effects"
+#    value: "false"
+#    state: present
 
-- name: Desktop theme
-  community.general.dconf:
-    key: "/org/cinnamon/theme/name"
-    value: "string 'ARK-Dark'"
-    state: present
+#- name: Desktop theme
+#  community.general.dconf:
+#    key: "/org/cinnamon/theme/name"
+#    value: "string 'ARK-Dark'"
+#    state: present
 
 - name: GTK control theme
   community.general.dconf:
-    key: "/org/cinnamon/desktop/interface/gtk-theme"
-    value: "string 'Windows 10 Dark'"
+    key: "/org/mate/desktop/interface/gtk-theme"
+    value: "string 'Adwaita-dark'"
     state: present
 
-- name: Windows borders theme
-  community.general.dconf:
-    key: "/org/cinnamon/desktop/wm/preferences/theme"
-    value: "string 'Windows 10 Dark'"
-    state: present
+#- name: Windows borders theme
+#  community.general.dconf:
+#    key: "/org/cinnamon/desktop/wm/preferences/theme"
+#    value: "string 'Windows 10 Dark'"
+#    state: present
 
 - name: icons theme
   community.general.dconf:
     key: "/org/cinnamon/desktop/interface/icon-theme"
-    value: "string 'Windows-10-Icons'"
+    value: "string 'Adwaita'"
     state: present
 
 - name: cursor theme
   community.general.dconf:
-    key: "/org/cinnamon/desktop/interface/cursor-theme"
+    key: "/org/gnome/desktop/interface/cursor-theme"
     value: "string 'breeze_cursors'"
     state: present
 
 - name: Wallpaper
   community.general.dconf:
-    key: "/org/cinnamon/desktop/background/picture-uri"
-    value: "string 'file:///usr/share/backgrounds/lowpoly-landscape.jpg'"
+    key: "/org/mate/desktop/background/picture-filename"
+    value: "string '/usr/share/backgrounds/kaisen-theme.png'"
     state: present
 
-- name: no sleep display on AC
-  community.general.dconf:
-    key: "/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
-    value: "uint32 0"
-    state: present
+#- name: no sleep display on AC
+#  community.general.dconf:
+#    key: "/org/cinnamon/settings-daemon/plugins/power/sleep-display-ac"
+#    value: "uint32 0"
+#    state: present
 
-- name: no sleep display on battery
-  community.general.dconf:
-    key: "/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
-    value: "uint32 0"
-    state: present
+#- name: no sleep display on battery
+#  community.general.dconf:
+#    key: "/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery"
+#    value: "uint32 0"
+#    state: present
 
-- name: never blank screen
-  dconf:
-    key: "/org/gnome/desktop/session/idle-delay"
-    value: "uint32 0"
-    state: present
+#- name: never blank screen
+#  dconf:
+#    key: "/org/gnome/desktop/session/idle-delay"
+#    value: "uint32 0"
+#    state: present

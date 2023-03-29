@@ -99,3 +99,8 @@
 - name: "[Exegol] Include Zsh"
   ansible.builtin.include: myres-zshrc.yml
 
+- name: "[Exegol] Include python3"
+  ansible.builtin.include: myres-python3.yml
+
+- name: "[Exegol] Include user setup"
+  ansible.builtin.include: myres-user-setup.yml

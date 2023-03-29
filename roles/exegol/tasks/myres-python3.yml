@@ -1,0 +1,15 @@
+---
+# tasks file for zshrc
+
+- name: "[Exegol] Create exegol directories for python3 configuration"
+  ansible.builtin.file:
+    path: "{{ exegol.my_resources }}/setup/python3"
+    state: directory
+    mode: '0740'
+    recurse: yes
+
+- name: "[Exegol:zsh] python3"
+  ansible.builtin.copy:
+    src: requirements.txt
+    dest: "{{ exegol.my_resources }}/setup/python3/requirements.txt"
+    mode: '0400'
