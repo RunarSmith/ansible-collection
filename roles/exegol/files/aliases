@@ -7,3 +7,5 @@ alias rvpn='killall openvpn ; openvpn --log-append /var/log/exegol/vpn.log --con
 # quick nmap: can to find open TCP ports, then deeper scan on these ports
 alias scan-target-quick='open_port_list=$(nmap -p- "${TARGET}" -Pn --min-rate=1000 -T4 | grep -o "^[0-9]*" | tr "\n" "," | sed "s/,$//"); echo "Open ports: ${open_port_list}\n"; nmap -sC -sV "$TARGET" -p${open_port_list} -oA "nmap-${TARGET}"'
 
+alias Villain='/opt/Villain/Villain.py'
+
