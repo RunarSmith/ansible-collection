@@ -1,0 +1,15 @@
+---
+# tasks file for zshrc
+
+- name: "[Exegol] Create exegol directories for tmux configuration"
+  ansible.builtin.file:
+    path: "{{ exegol.my_resources }}/setup/tmux"
+    state: directory
+    mode: '0740'
+    recurse: yes
+
+- name: "[Exegol:tmux] tmux"
+  ansible.builtin.copy:
+    src: tmux.conf
+    dest: "{{ exegol.my_resources }}/setup/tmux/tmux.conf"
+    mode: '0644'
