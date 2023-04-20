@@ -2,7 +2,10 @@
 # defaults file for office
 
 apt_deb_packages:
+  - firefox
+  - firefox-l10n-fr
   - remmina
+  - vim
 
 apt_deb_url:
   #- https://github.com/flameshot-org/flameshot/releases/download/v12.1.0/flameshot-12.1.0-1.debian-11.amd64.deb
