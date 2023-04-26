@@ -18,6 +18,7 @@ apt_deb_remove:
    - neovim
    - python3-neovim
    - qbittorrent*
+   - thunderbird
    - tor
    - torbrowser-launcher
    - xboard
