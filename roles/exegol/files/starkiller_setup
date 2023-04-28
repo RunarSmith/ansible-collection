@@ -1,0 +1,21 @@
+#!/bin/bash
+
+StarkillerDir=/var/local/Starkiller
+
+# git clone repo if not done
+if [ ! -d $StarkillerDir ]; then
+    pushd /var/local
+    git clone -q https://github.com/BC-SECURITY/Starkiller.git
+    popd
+fi
+
+apt install -y vite
+
+pushd $StarkillerDir
+yarn install
+popd
+
+
+pushd $StarkillerDir
+yarn build
+popd

@@ -107,3 +107,6 @@
 
 - name: "[Exegol] Include user setup"
   ansible.builtin.include: myres-user-setup.yml
+
+- name: "[Exegol] Include Empire"
+  ansible.builtin.include: myres-empire.yml
