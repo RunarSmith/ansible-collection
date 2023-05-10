@@ -4,6 +4,8 @@
 apt_deb_packages:
   - firefox
   - firefox-l10n-fr
+  - libreoffice
+  - libreoffice-l10n-fr
   - remmina
   - vim
 
@@ -17,7 +19,6 @@ apt_deb_remove:
    - brasero*
    - geany*
    - gimp*
-   - libreoffice*
    - neovim
    - python3-neovim
    - qbittorrent*
