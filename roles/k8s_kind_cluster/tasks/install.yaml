@@ -1,0 +1,6 @@
+---
+
+- name: Install kind
+  ansible.builtin.import_role:
+    name: kube_cloud.general.kind
+  become: true
