@@ -37,12 +37,9 @@ tags: []
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
 dependencies:
-  - name: community.general
-    version: '>=9.5.0'
-  - name: gantsign.visual_studio_code
-    version: '>=7.0.0'
-  - name: kube_cloud.general
-    version: '>=1.21.0'
+  community.general:  '>=9.5.0'
+  gantsign.visual-studio-code: '>=7.0.0'
+  kube_cloud.general: '>=1.21.0'
 
 # The URL of the originating SCM repository
 repository: https://github.com/RunarSmith/ansible-collection
