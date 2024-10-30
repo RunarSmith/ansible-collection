@@ -1,0 +1,19 @@
+---
+
+
+- name: "apt removals > remove unwanted packages"
+  become: true
+  apt:
+    name: 
+      - codium
+      - geany
+      - htop          # replaced by 'btop'
+      - libreoffice
+      - vscodium
+      
+      - mkdocs        # obsolete packges versions
+      - mkdocs-material 
+      - mkdocs-material-extensions
+
+    state: "absent"
+    autoremove: true

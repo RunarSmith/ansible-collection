@@ -1,0 +1,9 @@
+---
+
+- name: "docs > install packages"
+  become: true
+  apt:
+    name: 
+      -  python3-sphinx
+      - python3-sphinx-rtd-theme
+    state: "present"

@@ -1,0 +1,10 @@
+---
+
+- name: "Installing recon tools"
+  package:
+    name:
+      - dirsearch
+      - ffuf
+      - nuclei
+    state: latest
+  become: true

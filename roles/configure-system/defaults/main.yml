@@ -1,0 +1,11 @@
+---
+# defaults file for configure-system
+
+
+# defaults for locale
+
+locale:
+  system: en_US.UTF-8
+  system_language: en_US
+  keyboard_layout: us
+  timezone: Etc/Greenwich

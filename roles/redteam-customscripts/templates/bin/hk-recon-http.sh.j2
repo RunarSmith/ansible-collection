@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#set -x
+
+# input: in/http.txt
+# output: console
+
+. {{ hackscripts_base_path }}/lib/hacklib.sh
+
+while read -r line; do
+    url=$( get_http_url $line )
+
+    # if line is not empty, compute it
+    if [ "x$url" != "x" ]; then
+
+        print_title $url
+
+        CmdBase="http_"
+
+        # loop on an index in order to execute severall commands (sequentially)
+        for i in {1..10}; do
+
+            cmd=$(get_cmd "recon_http_${i}")
+            cmd_description=$(get_cmd_description "recon_http_${i}")
+
+            if [ "x$cmd" != "x" ]; then
+
+                cmd=$( replace_variable "$cmd" URL ${url} )
+
+                exec_cmd "$cmd" "$cmd_description"
+            fi
+        done
+
+    fi
+done < ./in/http.txt

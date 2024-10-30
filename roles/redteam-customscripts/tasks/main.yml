@@ -1,0 +1,55 @@
+---
+# tasks file for hackscripts
+
+- ansible.builtin.include_tasks: "vpn.yml"
+
+
+- name: Create directories if it does not exist in home folder
+  ansible.builtin.file:
+    path: "{{ hackscripts_base_path }}/{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - bin
+    - lib
+    - share/hacklib
+
+- name: Copy bin scripts
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/bin/"
+    dest: "{{ hackscripts_base_path }}/bin/"
+    mode: u=rx
+
+- name: Copy bin scripts (templated)
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ hackscripts_base_path }}/bin/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    mode: u=rx
+  with_fileglob:
+  - "{{ role_path }}/templates/bin/*.j2"
+
+#- name: Copy lib scripts
+#  ansible.builtin.copy:
+#    src: "{{ role_path }}/files/lib/"
+#    dest: "{{ hackscripts_base_path }}/lib/"
+#    mode: u=rx
+
+- name: Copy lib scripts (templated)
+  ansible.builtin.template:
+    src: "{{ item }}"
+    dest: "{{ hackscripts_base_path }}/lib/{{ item | basename | regex_replace('\\.j2$', '') }}"
+    mode: u=r
+  with_fileglob:
+  - "{{ role_path }}/templates/lib/*.j2"
+
+- name: Copy conf scripts
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/conf/"
+    dest: "{{ hackscripts_base_path }}/share/hacklib/"
+    mode: u=r
+
+- name: Copy data scripts
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/data/"
+    dest: "{{ hackscripts_base_path }}/share/hacklib/"
+    mode: u=rw

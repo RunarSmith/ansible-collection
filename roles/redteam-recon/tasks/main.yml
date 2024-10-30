@@ -1,0 +1,4 @@
+---
+# tasks file for redteam_recon
+
+- ansible.builtin.include_tasks: autorecon.yaml

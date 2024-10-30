@@ -1,0 +1,27 @@
+---
+
+- name: Get caido latest tag
+  uri:
+    url: https://api.github.com/repos/caido/caido/releases/latest
+    return_content: true
+  register: caido_release
+
+- name: Latest release
+  ansible.builtin.debug:
+    msg: "Caido version: {{ caido_release.json.name }}"
+
+- name: Download Linux artifact
+  ansible.builtin.get_url:
+    url:  "https://caido.download/releases/{{ caido_release.json.name }}/caido-desktop-{{ caido_release.json.name }}-linux-x86_64.deb"
+    dest: "/tmp/caido-desktop-{{ caido_release.json.name }}-linux-x86_64.deb"
+
+- name: "install caido"
+  apt:
+    deb: "/tmp/caido-desktop-{{ caido_release.json.name }}-linux-x86_64.deb"
+    state: present
+  become: true
+
+- name: Remove tmp file
+  ansible.builtin.file:
+    path: "/tmp/caido-desktop-{{ caido_release.json.name }}-linux-x86_64.deb"
+    state: absent

@@ -1,0 +1,41 @@
+---
+
+- name: "arsenal > Installing dependencies"
+  package:
+    name:
+      - python3-libtmux
+      - python3-docutils
+      - python3-pyperclip
+      - python3-yaml
+      - fzf
+    state: latest
+  become: true
+
+- name: "arsenal > checkout arsenal repository"
+  ansible.builtin.git:
+    repo: https://github.com/Orange-Cyberdefense/arsenal.git
+    dest: "{{ tools_root_path }}/arsenal"
+  become: true
+
+- name: "arsenal > create user my_cheats directory"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.cheats"
+    state: directory
+    mode: '0740'
+
+
+- name: Copy arsenal custom cheats
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "{{ ansible_env.HOME }}/.cheats/{{ item | basename }}"
+    mode: u=r
+  with_fileglob:
+  - "{{ role_path }}/files/arsenal_my_cheats/*.md"
+  
+- name: append aliases
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bash_aliases"
+    line: "alias a='{{ tools_root_path }}/arsenal/run'"
+    create: yes
+    state: present
+    insertafter: EOF

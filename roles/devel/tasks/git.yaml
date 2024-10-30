@@ -1,0 +1,9 @@
+---
+
+- name: "Installing Packages"
+  package:
+    name:
+      - git
+      - git-flow
+    state: latest
+  become: true

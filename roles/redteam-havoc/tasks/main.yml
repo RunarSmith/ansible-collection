@@ -1,0 +1,100 @@
+---
+# tasks file for redteam-havoc
+
+# https://havocframework.com/docs/installation
+
+- name: "clean directories"
+  ansible.builtin.file:
+    path: "{{ tools_root_path }}/Havoc"
+    state: absent
+  become: true
+
+- name: "create directories"
+  ansible.builtin.file:
+    path: "{{ tools_root_path }}/Havoc"
+    state: directory
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_id }}"
+    mode: "{{ 755 }}"
+  become: true
+
+- name: "havoc > checkout havoc repository"
+  ansible.builtin.git:
+    repo: https://github.com/HavocFramework/Havoc.git
+    dest: "{{ tools_root_path }}/Havoc"
+  #become: true
+
+- name: install dependencies
+  package:
+    name:
+      - git 
+      - build-essential 
+      - apt-utils 
+      - cmake 
+      - libfontconfig1 
+      - libglu1-mesa-dev 
+      - libgtest-dev 
+      - libspdlog-dev 
+      - libboost-all-dev 
+      - libncurses5-dev 
+      - libgdbm-dev 
+      - libssl-dev 
+      - libreadline-dev 
+      - libffi-dev 
+      - libsqlite3-dev 
+      - libbz2-dev 
+      - mesa-common-dev 
+      - qtbase5-dev 
+      - qtchooser 
+      - qt5-qmake 
+      - qtbase5-dev-tools 
+      - libqt5websockets5 
+      - libqt5websockets5-dev 
+      - qtdeclarative5-dev 
+      - golang-go 
+      - qtbase5-dev 
+      - libqt5websockets5-dev 
+      - python3-dev 
+      - libboost-all-dev 
+      - mingw-w64 
+      - nasm
+    state: latest
+  become: true
+
+- name: "Teamserver: Install additional Go dependencies"
+  command:
+    cmd: "go mod download  {{ item }}"
+    chdir: "{{ tools_root_path }}/Havoc/teamserver"
+  loop:
+    - "golang.org/x/sys"
+    - "github.com/ugorji/go"
+  #become: true
+
+- name: "Build Teamserver"
+  command:
+    cmd: "make ts-build"
+    chdir: "{{ tools_root_path }}/Havoc"
+  #become: true
+
+- name: "Build client"
+  command:
+    cmd: "make client-build"
+    chdir: "{{ tools_root_path }}/Havoc"
+  #become: true
+
+
+- name: append alias for server
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bash_aliases"
+    line: "alias havoc-server='cd {{ tools_root_path }}/Havoc/ ; ./havoc server --profile ./profiles/havoc.yaotl -v --debug'"
+    create: yes
+    state: present
+    insertafter: EOF
+
+- name: append alias for client
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bash_aliases"
+    line: "alias havoc-client='cd {{ tools_root_path }}/Havoc; ./havoc client'"
+    create: yes
+    state: present
+    insertafter: EOF

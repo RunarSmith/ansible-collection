@@ -1,0 +1,11 @@
+---
+# tasks file for kind-cluster
+
+- name: install k8s-kind
+  ansible.builtin.include_tasks: install.yaml
+
+- name: Delete cluster {{ cluster_name }} if exists
+  ansible.builtin.include_tasks: cluster-delete.yaml
+
+- name: Create cluster {{ cluster_name }}
+  ansible.builtin.include_tasks: cluster-create.yaml

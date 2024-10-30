@@ -1,0 +1,4 @@
+---
+
+- ansible.builtin.include_tasks: "vbox_guest.yaml"
+  when: "'hosts_WSL' not in group_names"

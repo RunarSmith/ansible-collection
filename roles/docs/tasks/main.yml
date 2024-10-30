@@ -1,0 +1,6 @@
+---
+# tasks file for docs
+
+- ansible.builtin.include_tasks: mkdocs.yaml
+- ansible.builtin.include_tasks: obsidian.yaml
+- ansible.builtin.include_tasks: sphinx.yaml

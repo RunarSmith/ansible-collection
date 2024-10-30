@@ -1,0 +1,6 @@
+---
+# tasks file for redteam_ad
+
+- ansible.builtin.include_tasks: "bloodhound.yaml"
+- ansible.builtin.include_tasks: "certipy.yaml"
+- ansible.builtin.include_tasks: kerbrute.yml

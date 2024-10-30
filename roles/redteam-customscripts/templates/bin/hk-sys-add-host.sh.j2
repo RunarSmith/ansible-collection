@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# IN: in/hosts
+
+. {{ hackscripts_base_path }}/lib/hacklib.sh
+
+if [ ! -f "in/hosts.txt" ]; then
+    echo "No in/hosts.txt file !!!"
+    exit 1
+fi
+
+# add hosts
+hostsdef=$( clean_file in/hosts.txt | sed "s/:/ \t /g" )
+
+# remove previsous definissions
+while IFS=":" read -r ip names; do
+    {{ hackscripts_base_path }}/bin/hk-sys-rm-host.sh $ip
+done <<< "$hostsdef"
+
+cp /etc/hosts /tmp/hosts
+echo "${hostsdef}" >> /tmp/hosts
+
+# show diff
+diff -d /etc/hosts /tmp/hosts
+
+# set it
+sudo mv /tmp/hosts /etc/hosts
+

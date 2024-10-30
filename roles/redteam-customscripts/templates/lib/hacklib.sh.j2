@@ -1,0 +1,77 @@
+
+# print title
+function print_title() {
+   echo "-=-=-=- Scan host ${1} -=-=-=-"
+   echo ""
+}
+
+# === string and files helpers ============================
+
+# replace "{VariableName}" by its value
+function replace_variable() {
+  String=$1
+  VariableName=$2
+  VariableValue=$( echo $3 | sed  's/\//\\\//g' )
+
+  echo $String | sed "s/{$VariableName}/$VariableValue/"
+}
+
+function str_strip() {
+  String=$1
+  echo $String | sed "s/^[ \t]*//" | sed "s/[ \t]*$//"
+}
+
+# read a file ($1), remove comments, and strip lines
+function clean_file() {
+  cat $1 | sed "s/^[ \t]*#.*$//g" | sed "s/^[ \t]*//g" | sed "s/[ \t]*$//g" |  grep -v '^[ \t]*$'
+}
+
+# remove comments, and strip lines
+function clean_line() {
+  echo $1 | sed "s/^[ \t]*#.*$//g" | sed "s/^[ \t]*//g" | sed "s/[ \t]*$//g" |  grep -v '^[ \t]*$'
+}
+
+# === commands execution ==================================
+
+function exec_cmd() {
+    cmd=$1
+    description=$2
+    if [ "x$description" != "x" ]; then
+      echo $description
+      echo ""
+    fi
+    # display and execute command
+    echo $cmd
+    echo ""
+    eval "$cmd"
+    echo ""
+}
+
+# === data commands =======================================
+
+function get_cmd() {
+  grep -E "^${1}:" ./commands.conf | cut -d ":" -f 3
+}
+
+function get_cmd_description() {
+  grep -E "^${1}:" ./commands.conf | cut -d ":" -f 2
+}
+
+# === data / in / hosts.txt ===============================
+
+function get_host_ip() {
+  ip=$(clean_line $1 | cut -d ":" -f 1 )
+  str_strip $ip
+}
+
+function get_host_names() {
+  ip=$(clean_line $1 | cut -d ":" -f 2 )
+  str_strip $ip
+}
+
+# === data / in / http.txt ================================
+
+function get_http_url() {
+  url=$(clean_line $1 )
+  str_strip $url
+}

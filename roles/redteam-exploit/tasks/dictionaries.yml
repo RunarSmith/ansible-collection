@@ -1,0 +1,23 @@
+---
+  
+- name: "dictionaries > Installing Packages"
+  package:
+    name:
+      - seclists
+      - wordlists
+    state: latest
+  become: true
+
+# Rockyou is delivered as compressed, so we need to extract it to be ready to use
+
+- name: "dictionaries > test if rockyou already extracted"
+  stat:
+    path: /usr/share/wordlists/rockyou.txt
+  register: rockyou_result
+
+- name: "dictionaries > Extract rockyou"
+  ansible.builtin.command:
+    cmd: gzip -d rockyou.txt.gz
+    chdir: /usr/share/wordlists/
+  become: true
+  when: not rockyou_result.stat.exists

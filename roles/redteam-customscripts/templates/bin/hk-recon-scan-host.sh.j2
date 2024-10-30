@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#set -x
+
+# input: in/IPs.txt
+# output: console
+
+. {{ hackscripts_base_path }}/lib/hacklib.sh
+
+while read -r line; do
+    TargetIP=$( get_host_ip $line )
+
+    # if line is not empty, compute it
+    if [ "x$TargetIP" != "x" ]; then
+
+        print_title $TargetIP
+
+        cmd=$(get_cmd recon_host)
+
+        cmd=$( replace_variable "$cmd" TargetIP ${TargetIP} )
+
+        exec_cmd "$cmd"
+    fi
+done < ./in/hosts.txt

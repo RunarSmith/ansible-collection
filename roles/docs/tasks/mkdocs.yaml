@@ -1,0 +1,33 @@
+---
+
+- name: "clean directories"
+  ansible.builtin.file:
+    path: "{{ tools_root_path }}/mkdocs"
+    state: absent
+  become: true
+
+- name: "create directories"
+  ansible.builtin.file:
+    path: "{{ tools_root_path }}/mkdocs"
+    state: directory
+    mode: '0755'
+  become: true
+
+- name: "docs > install packages"
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    state: latest
+    virtualenv: "{{ tools_root_path }}/mkdocs"
+  loop:
+    - mkdocs
+    - mkdocs-material 
+    - mkdocs-material-extensions
+  become: true
+
+- name: append aliases
+  ansible.builtin.lineinfile:
+    path: "{{ ansible_env.HOME }}/.bash_aliases"
+    line: "alias mkdocs='. {{ tools_root_path }}/mkdocs/bin/activate ; mkdocs'"
+    create: yes
+    state: present
+    insertafter: EOF

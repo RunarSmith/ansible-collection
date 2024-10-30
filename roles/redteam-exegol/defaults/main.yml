@@ -1,0 +1,7 @@
+---
+# defaults file for exegol
+
+exegol:
+  my_resources: "{{ resources_root_path}}/exegol/my-resources"
+  exegol_resources: "{{ resources_root_path}}/exegol/exegol-resources"
+  workspaces:  "{{ ansible_user_dir }}/exegol_workspaces"

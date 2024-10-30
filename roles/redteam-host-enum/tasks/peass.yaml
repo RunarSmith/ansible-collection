@@ -1,0 +1,11 @@
+---
+
+# linPeas and winPEAS: /usr/share/peass/linpeas/  /usr/share/peass/winpeas/
+- name: "Installing PEASS"
+  package:
+    name:
+      - peass
+    state: latest
+  become: true
+
+

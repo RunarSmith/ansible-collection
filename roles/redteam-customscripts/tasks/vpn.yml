@@ -1,0 +1,7 @@
+---
+
+- name: "vpn > create user vpn directory"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/.vpn"
+    state: directory
+    mode: '0744'

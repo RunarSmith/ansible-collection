@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# input: in/http.txt
+# output: console
+
+. {{ hackscripts_base_path }}/lib/hacklib.sh
+
+while read -r line; do
+    TargetUrl=$( get_http_url $line )
+
+    # if line is not empty, compute it
+    if [ "x$TargetUrl" != "x" ]; then
+
+        print_title $TargetUrl
+
+        # get domain by removing the protocol, and a trailing "/" at the end if any
+        TargetDomain=$( echo $TargetUrl | sed 's/http[s]*:\/\///' | sed 's/\///' )
+
+        echo "Get first shot to get default response"
+        echo ""
+
+        # ffuf:
+        # '-r' : follow redirect
+        # '-mc all': match HTTP response code to 'all'. since we do not want to miss a valid domain that responded a 404 code with another size, we have to accept all codes. This could provide more false-positives...
+
+        TmpFile=$(mktemp)
+        cmd="ffuf -u $TargetUrl -H 'Host: FUZZ.${TargetDomain}' -w /usr/share/seclists/Discovery/DNS/deepmagic.com-prefixes-top500.txt -r  -mc all 2> /dev/null | sed 's/.*Size: \([0-9]*\).*/\1/p' | uniq | tee $TmpFile"
+
+        exec_cmd "$cmd"
+
+        DefaultResponseSize=$(cat $TmpFile )
+        rm $TmpFile
+        echo "Default response size = ${DefaultResponseSize}"
+        echo "Do the real fuzzing and exclude the default response size to get good results"
+        echo ""
+
+        # Dictionnary used here is huge ! but we do not want to miss a vhost
+        cmd="ffuf -u $TargetUrl -H 'Host: FUZZ.${TargetDomain}' -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -r -fs ${DefaultResponseSize} -mc all"
+
+        exec_cmd "$cmd" 
+
+    fi
+done < ./in/http.txt
+
+
+exit 0
+

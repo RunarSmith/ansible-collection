@@ -1,0 +1,9 @@
+---
+
+- name: "Installing BloodHound"
+  package:
+    name:
+      - bloodhound
+      - neo4j
+    state: latest
+  become: true

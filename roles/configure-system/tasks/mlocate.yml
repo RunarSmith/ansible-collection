@@ -1,0 +1,13 @@
+# tasks file
+---
+
+- name: "mlocate > Ensure installed"
+  become: true
+  apt:
+    name: "mlocate"
+    state: "latest"
+
+- name: "mlocate > Update updatedb"
+  become: true
+  command:
+    cmd: updatedb

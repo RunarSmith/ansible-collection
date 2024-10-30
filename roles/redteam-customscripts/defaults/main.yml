@@ -1,0 +1,4 @@
+---
+# defaults file for hackscripts
+
+hackscripts_base_path: "{{ ansible_env.HOME }}/.local"

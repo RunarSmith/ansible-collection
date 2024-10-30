@@ -1,0 +1,7 @@
+---
+# tasks file for redteam_web
+
+- ansible.builtin.include_tasks: burpsuite.yaml
+- ansible.builtin.include_tasks: caido.yaml
+- ansible.builtin.include_tasks: "firefox.yml"
+- ansible.builtin.include_tasks: misc-apt.yaml

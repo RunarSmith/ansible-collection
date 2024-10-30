@@ -1,0 +1,30 @@
+---
+
+- name: "bash > Copy Custom BashRC"
+  copy:
+    src: "{{ role_path }}/files/.bash_custom"
+    dest: "{{ ansible_env.HOME }}"
+
+- name: "bash > Copy Custom Bash aliases"
+  copy:
+    src: "{{ role_path }}/files/.bash_aliases"
+    dest: "{{ ansible_env.HOME }}"
+
+- name: "bash > Insert include from bashrc"
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bashrc"
+    marker: "### {mark} ANSIBLE MANAGED BLOCK"
+    insertafter: EOF
+    block: |
+      if [ -f ~/.bash_custom ]; then
+        . ~/.bash_custom
+      fi
+
+- name: "Update user bash custom config"
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.bash_aliases"
+    insertafter : EOF
+    # append_newline: true  # added in ansible-core 2.16
+    # prepend_newline: true   # added in ansible-core 2.16
+    marker: "# -=-=- {mark} ANSIBLE MANAGED BLOCK -=-=-"
+    block: "{{ bash_aliases_custom }}"

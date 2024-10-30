@@ -1,0 +1,18 @@
+---
+- name: "apt > Updating & upgrading via apt repo"
+  apt:
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+    #force_apt_get: yes
+    cache_valid_time: 3600
+    upgrade: full
+  become: true
+
+- name: "apt > install system packages"
+  become: true
+  apt:
+    name: 
+      - glances
+    state: "present"
+

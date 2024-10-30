@@ -1,0 +1,24 @@
+---
+# tasks file for configure_user
+
+- ansible.builtin.include_tasks: arsenal.yml
+
+- ansible.builtin.include_tasks: "bash.yml"
+
+- ansible.builtin.include_tasks: "git.yml"
+
+- ansible.builtin.include_tasks: "ssh.yml"
+
+- ansible.builtin.include_tasks: "tmux.yml"
+
+- name: "Remove easter egg file"
+  ansible.builtin.file:
+    path: "{{ ansible_env.HOME }}/Documents/candies from strangers"
+    state: absent
+
+- name: "Turn off the login banner in Linux or Unix .hushlogin file"
+  ansible.builtin.copy:
+    content: ""
+    dest: "{{ ansible_env.HOME }}/.hushlogin"
+    force: false
+    mode: 0444

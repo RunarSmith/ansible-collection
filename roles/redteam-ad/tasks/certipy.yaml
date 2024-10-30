@@ -1,0 +1,10 @@
+---
+
+- name: "Install pipx tools"
+  community.general.pipx:
+    name: "{{ item.name }}"
+    source: "{{ item.url }}"
+    state: latest
+  loop:
+    - { name: 'certipy-ad', url: 'git+https://github.com/ly4k/Certipy.git' }
+

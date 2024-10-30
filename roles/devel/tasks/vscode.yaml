@@ -1,0 +1,60 @@
+---
+
+- name: Install VS Code via external role
+  ansible.builtin.include_role:
+    name: gantsign.visual-studio-code
+  vars:
+    users:
+      - username: "{{ ansible_user_id }}" 
+        visual_studio_code_extensions:
+          # theme 
+          - silofy.hackthebox
+          # beautify code 
+          - esbenp.prettier-vscode
+          # Todo
+          - Gruntfuggly.todo-tree
+          # langages
+          - ms-vscode.cpptools
+          - ms-python.debugpy
+          - ms-python.python
+          - ms-vscode.remote-explorer
+          # Markdown
+          - yzhang.markdown-all-in-one
+          - jebbs.markdown-extended
+          - foam.foam-vscode
+          # framework
+          - redhat.ansible
+          # UI
+          - silofy.hackthebox
+          - esbenp.prettier-vscode
+          # git 
+          - mhutchie.git-graph
+          - GitHub.remotehub
+          - github.vscode-github-actions
+          # Misc tools
+          - ms-vscode.hexeditor
+          - hediet.vscode-drawio
+          # DevSecOps
+          - snyk-security.snyk-vulnerability-scanner
+          # Project manager (shortcuts to open folders/workspaces)
+          - alefragnani.project-manager
+        visual_studio_code_settings_overwrite: true
+        visual_studio_code_settings: {
+          # UI 
+          "workbench.colorTheme": "Hack The Box",
+          "editor.wordWrap": "on",
+          # Markdown 
+          "MarkdownPaste.path": "./images/",
+          # python 
+          "python.formatting.provider": "black" ,
+          # MS Telemetry 
+          "telemetry.enableTelemetry": false,
+          "telemetry.telemetryLevel": "error",
+          "telemetry.enableCrashReporter": false,
+          # Workaround required to open VSCode over X11 with X11 Forward
+          "window.titleBarStyle": "custom",
+          "window.dialogStyle": "custom",
+          "window.menuBarVisibility": "compact",
+          # snyk
+          "snyk.yesWelcomeNotification": false
+        }

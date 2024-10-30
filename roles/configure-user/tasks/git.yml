@@ -1,0 +1,16 @@
+---
+
+- name: "git > user git config"
+  ansible.builtin.template:
+    src: templates/gitconfig.j2
+    dest: "{{ ansible_env.HOME }}/.gitconfig"
+
+
+- name: "Update user git config"
+  ansible.builtin.blockinfile:
+    path: "{{ ansible_env.HOME }}/.gitconfig"
+    insertafter : EOF
+    # append_newline: true  # added in ansible-core 2.16
+    # prepend_newline: true   # added in ansible-core 2.16
+    marker: "# -=-=- {mark} ANSIBLE MANAGED BLOCK -=-=-"
+    block: "{{ gitconfig_custom }}"

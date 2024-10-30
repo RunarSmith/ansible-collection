@@ -17,3 +17,14 @@
     groups: docker
     append: yes
 
+# Since groups have changed, we need to log out and re-login to take groups into account
+
+- name: Reset ssh connection to allow user changes to affect ansible user
+  ansible.builtin.meta:
+    reset_connection
+
+- name: Ensure docker deamon is running
+  service:
+    name: docker
+    state: started
+  become: true

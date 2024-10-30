@@ -1,14 +1,10 @@
 ---
-# tasks file for baseline-controller
-
-- name: "[Baseline-controler] Install controller packages"
-  become: true
-  ansible.builtin.apt:
-    name:
-        - ansible
-        - sshpass
-    state: present
-  tags:
-  - apt
+# tasks file for bootstrap
 
 
+#- name: Show Facts
+#  debug:
+#    msg: "{{ ansible_facts }}"
+
+
+- ansible.builtin.include_tasks: ansible-controller.yaml

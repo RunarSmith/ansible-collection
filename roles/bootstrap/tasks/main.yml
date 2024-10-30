@@ -1,0 +1,4 @@
+---
+# tasks file for bootstrap
+
+- ansible.builtin.include_tasks: wsl_group.yaml

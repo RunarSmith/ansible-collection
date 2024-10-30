@@ -1,0 +1,9 @@
+---
+
+- name: "Installing Packages"
+  package:
+    name:
+      - vim
+    state: latest
+  become: true
+

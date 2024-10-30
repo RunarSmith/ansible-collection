@@ -1,7 +1,0 @@
----
-- name: "[Baseline:unattended-upgrades] Install"
-  become: true
-  apt:
-    name:
-      - unattended-upgrades
-    state: present

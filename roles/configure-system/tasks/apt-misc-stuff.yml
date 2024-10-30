@@ -1,0 +1,25 @@
+---
+  
+- name: "Installing Packages"
+  package:
+    name:
+      - jq
+      - flameshot
+      - exiftool
+
+      - btop                # system monitor : https://github.com/aristocratos/btop
+      
+      - ranger # console file-manager
+
+      - rdate   # date time fix
+      - ntpdate
+      
+      - python3
+      - virtualenv  # python
+      - pipx
+
+      - curl
+      
+    state: latest
+  become: true
+

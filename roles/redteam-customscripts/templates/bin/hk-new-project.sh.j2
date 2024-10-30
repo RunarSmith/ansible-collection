@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#set -x
+
+# output: console
+
+. {{ hackscripts_base_path }}/lib/hacklib.sh
+
+ProjectName="$1"
+
+if [ -d "${ProjectName}" ]; then
+    echo "Oh boy! folder -${ProjectName}- already exists !!!"
+    echo "I will only recreate missing stuff"
+fi
+
+# create its folder
+mkdir -p "${ProjectName}"
+
+cd "${ProjectName}"
+
+f="./in"
+if [ ! -d "$f" ]; then
+    echo "copy the default datas"
+    cp -r "{{ hackscripts_base_path }}/share/hacklib/in" "$f"
+    chmod 755 "$f"
+fi
+
+f="./commands.conf"
+if [ ! -f "$f" ]; then
+    echo "copy the default commands"
+    cp -r "{{ hackscripts_base_path }}/share/hacklib/commands.conf" "$f"
+    chmod 644 "$f"
+fi
+
+echo "Done"

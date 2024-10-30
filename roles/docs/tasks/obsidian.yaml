@@ -1,0 +1,21 @@
+---
+
+- name: Obsidian Get latest tag
+  uri:
+    url: https://api.github.com/repos/obsidianmd/obsidian-releases/releases/latest
+    return_content: true
+  register: obsidian_release
+
+- name: Latest release
+  ansible.builtin.debug:
+    msg: "Obsidian version: {{ obsidian_release.json.name }}"
+
+- name: Select obsidian Linux artifact
+  set_fact:
+    chisel_release_linux: "{{ (obsidian_release.json.assets | selectattr('name', 'match', '.*_amd64.deb' ))[0] }}"
+
+- name: "install obsidian"
+  apt:
+    deb: "{{ chisel_release_linux.browser_download_url }}"
+    state: present
+  become: true

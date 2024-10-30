@@ -1,0 +1,2 @@
+# add target hosts here :
+# 10.10.10.10:target.lan  www.target.lan

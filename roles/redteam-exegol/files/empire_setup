@@ -1,0 +1,28 @@
+#!/bin/bash
+
+EmpireDir=/var/local/Empire
+
+# git clone repo if not done
+if [ ! -d $EmpireDir ]; then
+    pushd /var/local
+    git clone -q --recursive https://github.com/BC-SECURITY/Empire.git
+    popd
+fi
+
+pushd $EmpireDir
+
+# replace the start command, since this call to systemctl fails in a docker container
+# NB: The required infos to launch can be found in systemctl service file :
+# /lib/systemd/system/mysql.service
+# NB: the "sleep 1" is here to let time for the mysql daemon start
+sed -i 's/^ *sudo systemctl start mysql\.service || true # will fail in a docker image$/  sudo -u mysql \/usr\/sbin\/mysqld \& \n sleep 1/g' ./setup/install.sh
+
+./setup/install.sh
+
+popd
+
+# stop MySQL after installation
+
+# pid file is configured in : /etc/mysql/mysql.conf.d/mysqld.cnf
+pidfile=$(grep pid-file /etc/mysql/mysql.conf.d/mysqld.cnf | cut -d '=' -f 2 | tr -d ' ')
+kill $(cat $pidfile)

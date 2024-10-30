@@ -1,0 +1,8 @@
+---
+# tasks file for zshrc
+
+- name: "[Exegol:zsh] user setup"
+  ansible.builtin.copy:
+    src: load_user_setup.sh
+    dest: "{{ exegol.my_resources }}/setup/load_user_setup.sh"
+    mode: '0555'

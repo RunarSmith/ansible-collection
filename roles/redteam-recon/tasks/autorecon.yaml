@@ -1,0 +1,41 @@
+---
+# tasks file for autorecon
+
+- name: "autorecon > checkout repository"
+  ansible.builtin.git:
+    repo: https://github.com/Tib3rius/AutoRecon.git
+    dest: "{{ tools_root_path }}/autorecon/"
+  become: true
+
+- name: get ferox buster
+  ansible.builtin.shell:
+    cmd: |
+      mkdir /tmp/feroxbuster
+      cd /tmp/feroxbuster
+      wget -q https://github.com/epi052/feroxbuster/releases/download/v2.10.4/feroxbuster_amd64.deb.zip
+      unzip feroxbuster_amd64.deb.zip
+
+- name: "install feroxbuster"
+  become: true
+  apt:
+    deb: /tmp/feroxbuster/feroxbuster_2.10.4-1_amd64.deb
+    state: "present"
+
+- name: Remove tmp directory
+  ansible.builtin.file:
+    path: /tmp/feroxbuster
+    state: absent
+
+
+- name: "install dependencies"
+  become: true
+  apt:
+    name: 
+      - dnsrecon
+      - enum4linux-ng
+      - tnscmd10g
+      - redis-tools
+      - wkhtmltopdf
+    state: "present"
+
+# TODO: alias autorecon='python3 {{ tools_root_path }}/autorecon/autorecon.py'

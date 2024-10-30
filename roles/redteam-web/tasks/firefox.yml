@@ -1,0 +1,15 @@
+---
+
+- name: "firefox > Ensure installed"
+  become: true
+  apt:
+    name: "firefox-esr"
+    state: "latest"
+    
+- name: "firefox > Updating Firefox Policies"
+  ansible.builtin.template: 
+    src: "templates/policies.json.j2"
+    dest: "/usr/share/firefox-esr/distribution/policies.json"
+  become: true
+
+

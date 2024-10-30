@@ -1,0 +1,17 @@
+---
+  
+- name: "Removing Samba Packages"
+  package:
+    name:
+      - samba-common
+      - samba-libs
+    state: absent
+    autoremove: true
+  become: true
+
+- name: "Install smbclient"
+  package:
+    name:
+      - smbclient
+    state: latest
+  become: true

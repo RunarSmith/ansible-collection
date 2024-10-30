@@ -1,0 +1,7 @@
+---
+# defaults file for kind-cluster
+
+cluster_name: kind
+
+control_nodes: 1
+worker_nodes: 2

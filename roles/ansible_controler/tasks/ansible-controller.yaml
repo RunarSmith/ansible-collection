@@ -1,0 +1,14 @@
+---
+
+# install all required items for the ansible controller
+# mainly to ensure dependencies are available
+
+- name: "[Baseline-controler] Install controller packages"
+  become: true
+  ansible.builtin.apt:
+    name:
+        - ansible
+        - git       # for git step
+        - sshpass   # for sudo password
+        - unzip     # for unarchive step
+    state: present
