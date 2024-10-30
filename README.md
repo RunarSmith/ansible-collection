@@ -8,6 +8,11 @@ This collection contains roles to perform the configuration.
 
 ## Installation
 
+Install the role dependency for VSCode:
+```yaml
+ansible-galaxy role install gantsign.visual-studio-code
+```
+
 Setup the requirements to pull from the git repository:
 
 requirements.yml :
