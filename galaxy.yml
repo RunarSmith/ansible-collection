@@ -38,8 +38,9 @@ tags: []
 # range specifiers can be set and are separated by ','
 dependencies:
   "community.general":  '>=9.5.0'
-  "gantsign.visual-studio-code": '>=7.0.0'
+  #"gantsign.visual-studio-code": '>=7.0.0'
   "kube_cloud.general": '>=1.21.0'
+
 
 # The URL of the originating SCM repository
 repository: https://github.com/RunarSmith/ansible-collection
