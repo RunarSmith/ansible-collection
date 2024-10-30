@@ -36,7 +36,10 @@ tags: []
 # collection label 'namespace.name'. The value is a version range
 # L(specifiers,https://python-semanticversion.readthedocs.io/en/latest/#requirement-specification). Multiple version
 # range specifiers can be set and are separated by ','
-dependencies: {}
+dependencies:
+  - community.general:  "^5.9.0"
+  - gantsign.visual-studio-code: "^7.0.0"
+  - kube_cloud.general: "^1.21.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/RunarSmith/ansible-collection
