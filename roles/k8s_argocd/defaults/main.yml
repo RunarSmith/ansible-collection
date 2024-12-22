@@ -1,0 +1,7 @@
+---
+# defaults file for k8s-argocd
+
+deploy_namespace: argocd
+helm_repo_name:   argocd
+chart_url:        https://argoproj.github.io/argo-helm
+chart_name:       argo/argo-cd

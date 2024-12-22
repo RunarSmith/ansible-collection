@@ -3,5 +3,15 @@
 
 cluster_name: kind
 
-control_nodes: 1
+control_nodes: 1    # better keep it at 1 node
 worker_nodes: 2
+
+# exposed ports are accessible from outside of the cluster (= from host)
+# NB: Port 5000 is already used by local registry
+exposed_ports:
+  - 80    # usual HTTP service
+  - 443   # usual HTTPS service
+  - 8080  # alternative HTTP service
+  - 8443  # alternative HTTPS service
+  - 30000 # argocd
+  - 31000 # gitea

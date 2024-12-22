@@ -1,21 +1,11 @@
 ---
 # tasks file for k8s-clients
 
-- name: Install kubectl
-  ansible.builtin.import_role:
-    name: kube_cloud.general.kubectl
-  become: true
+- name: Install argocd CLI
+  ansible.builtin.include_tasks: argocd.yaml
 
-# other way is by installing via apt
-# - name: "Installing Packages"
-#   package:
-#     name:
-#       - kubernetes-client
-#       # - kubernetes-helm
-#     state: latest
-#   become: true
+- name: Install helm CLI
+  ansible.builtin.include_tasks: helm.yaml
 
-- name: Install helm
-  ansible.builtin.import_role:
-    name: kube_cloud.general.helm
-  become: true
+- name: Install kubectl CLI
+  ansible.builtin.include_tasks: kubectl.yaml

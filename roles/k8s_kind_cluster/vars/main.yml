@@ -1,2 +1,7 @@
 ---
 # vars file for kind-cluster
+
+local_registry_port:  5000
+local_registry_name:  'kind-registry'
+
+#local_registry_data_path: /tmp/registry

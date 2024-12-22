@@ -3,7 +3,18 @@ apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
 {% for n in range(control_nodes|int) %}
   - role: control-plane
+    extraPortMappings:
+{% for port in exposed_ports %}
+    - containerPort: {{ port }}
+      hostPort: {{ port }}
+      protocol: TCP
+{% endfor %}
 {% endfor %}
 {% for n in range(worker_nodes|int) %}
   - role: worker
 {% endfor %}
+containerdConfigPatches:
+- |-
+  [plugins."io.containerd.grpc.v1.cri".registry.configs."kind-registry:5000"]
+    [plugins."io.containerd.grpc.v1.cri".registry.configs."kind-registry:5000".tls]
+      insecure_skip_verify = true

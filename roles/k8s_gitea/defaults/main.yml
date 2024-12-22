@@ -1,0 +1,4 @@
+---
+# defaults file for k8s_gitea
+
+deploy_namespace: gitea

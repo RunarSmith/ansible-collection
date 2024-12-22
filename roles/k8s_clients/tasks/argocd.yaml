@@ -1,0 +1,8 @@
+---
+
+- name: Install argocd CLI
+  ansible.builtin.get_url:
+    url: '{{ argocd_url }}'
+    dest: '{{ argocd_exe }}'
+    mode: '755'
+  become: true

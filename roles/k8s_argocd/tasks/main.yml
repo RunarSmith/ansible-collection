@@ -1,0 +1,47 @@
+---
+# tasks file for k8s-argocd
+
+# src: https://sysadmin.info.pl/en/blog/installing-configuring-and-removing-argo-cd-with-bash-and-ansible/
+
+- name: Create namespace
+  shell: |
+    kubectl create namespace "{{ deploy_namespace }}" || echo "Namespace already exists"
+
+- name: Add helm repo
+  shell: |
+    helm repo add --force-update "{{ helm_repo_name }}" "{{ chart_url }}"
+
+- name: Update repository using Helm
+  shell: |
+    helm repo update
+
+- name: test if already deployed
+  shell: |
+    helm ls --namespace "{{ deploy_namespace }}" | grep -q {{ helm_repo_name }} || echo "NotDeployed"
+  register: helm_repo_deployed
+
+- name: Install repository using Helm
+  shell: |
+    helm install "{{ helm_repo_name }}" "{{ chart_name }}" --namespace "{{ deploy_namespace }}"
+  when: helm_repo_deployed.stdout == "NotDeployed"
+
+- name: Update repository using Helm
+  shell: |
+    helm upgrade "{{ helm_repo_name }}" "{{ chart_name }}" --namespace "{{ deploy_namespace }}"
+  when: helm_repo_deployed.stdout != "NotDeployed"
+
+
+- name: Create Ingress for Argo CD
+  shell: |
+    kubectl apply -f "{{ role_path }}/files/ingress.yaml"
+
+
+
+
+# change argocd-server svc from ClusterIP to LoadBalancer
+# this change will make it avalable outside of cluster
+- name: change argocd service into a loadbalancer to get access from outside of cluster
+  shell: |
+    kubectl patch service argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+    kubectl patch service argocd-server -n argocd --type='json' -p='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":30000}]'
+

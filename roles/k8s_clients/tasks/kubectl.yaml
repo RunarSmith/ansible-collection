@@ -1,0 +1,7 @@
+---
+
+
+- name: Install kubectl
+  ansible.builtin.import_role:
+    name: kube_cloud.general.kubectl
+  become: true

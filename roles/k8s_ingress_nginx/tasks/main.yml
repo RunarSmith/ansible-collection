@@ -1,0 +1,25 @@
+---
+# tasks file for k8s-ingress-nginx
+
+- name: Create namespace
+  shell: |
+    kubectl create namespace ingress-nginx || echo "Namespace already exists"
+
+- name: Add helm repo
+  shell: |
+    helm repo add --force-update ingress-nginx https://kubernetes.github.io/ingress-nginx
+
+- name: Update repository using Helm
+  shell: |
+    helm repo update
+
+- name: Update repository using Helm
+  shell: |
+    if helm ls --namespace ingress-nginx | grep -q ingress-nginx; then
+      # Application is already deployed
+      helm upgrade ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+    else
+      # Application is not deployed: installing
+      helm install ingress-nginx ingress-nginx/ingress-nginx --namespace ingress-nginx
+    fi
+

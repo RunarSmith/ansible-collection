@@ -1,0 +1,6 @@
+---
+
+- name: Install helm
+  ansible.builtin.import_role:
+    name: kube_cloud.general.helm
+  become: true

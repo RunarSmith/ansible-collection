@@ -1,5 +1,37 @@
 ---
 
+# remove all containers, images, networks, etc :
+# docker system prune --all --force
+
+- name: Get list of all Kind-related containers
+  shell: docker ps --all --filter "name=kind-" --format "\{\{ '\{\{' }} .Names \{\{ '}}'  }}"
+  register: kind_containers
+  changed_when: false
+
+- name: Stop matching containers forcefully
+  docker_container:
+    name: "{{ item }}"
+    state: stopped
+    force_kill: yes
+  loop: "{{ kind_containers.stdout_lines }}"
+  when: item is match('kind-(worker|control-plane|registry).*')
+
+- name: Remove matching containers forcefully
+  docker_container:
+    name: "{{ item }}"
+    state: absent
+    force_kill: yes
+  loop: "{{ kind_containers.stdout_lines }}"
+  when: item is match('kind-(worker|control-plane|registry).*')
+
+- name: Remove kindest/node images
+  docker_image:
+    name: kindest/node
+    state: absent
+    force_absent: yes
+
+# =========================================================
+
 - name: Check if cluster {{ cluster_name }} is running
   shell: "kind get clusters | grep -w {{ cluster_name }}"
   failed_when: false

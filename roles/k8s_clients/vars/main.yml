@@ -1,2 +1,7 @@
 ---
 # vars file for k8s-clients
+
+argocd_ver: v2.13.2
+
+argocd_url: 'https://github.com/argoproj/argo-cd/releases/download/{{ argocd_ver }}/argocd-linux-amd64'
+argocd_exe: '/usr/local/bin/argocd'

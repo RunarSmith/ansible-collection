@@ -1,0 +1,37 @@
+---
+# tasks file for k8s_gitea
+
+
+- name: Create namespace
+  shell: |
+    kubectl create namespace "{{ deploy_namespace }}" || echo "Namespace already exists"
+
+- name: Add helm repo
+  shell: |
+    helm repo add gitea-charts https://dl.gitea.com/charts/
+
+- name: Update repository using Helm
+  shell: |
+    helm repo update
+
+- name: test if already deployed
+  shell: |
+    helm ls --namespace "{{ deploy_namespace }}" | grep -q gitea || echo "NotDeployed"
+  register: helm_repo_deployed
+
+- name: Install repository using Helm
+  shell: |
+    helm install gitea gitea-charts/gitea --namespace "{{ deploy_namespace }}" --create-namespace -f "{{ role_path }}/files/values.yaml"
+  when: helm_repo_deployed.stdout == "NotDeployed"
+
+- name: Update repository using Helm
+  shell: |
+    helm upgrade gitea gitea-charts/gitea --namespace "{{ deploy_namespace }}" -f "{{ role_path }}/files/values.yaml"
+  when: helm_repo_deployed.stdout != "NotDeployed"
+
+# change svc from ClusterIP to LoadBalancer
+# this change will make it avalable outside of cluster
+- name: change service into a NodePort to get access from outside of cluster
+  shell: |
+    kubectl patch service gitea-http -n gitea -p '{"spec": {"type": "NodePort"}}'
+    kubectl patch service gitea-http -n gitea --type='json' -p='[{"op": "replace", "path": "/spec/ports/0/nodePort", "value":31000}]'

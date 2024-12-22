@@ -6,5 +6,54 @@
     dest: "/tmp/cluster-config.yaml"
     mode: 0644
 
+# =========================================================
+# Cluster creation
+
 - name: Create kind cluster
   shell: "kind create cluster --name {{ cluster_name }} --config /tmp/cluster-config.yaml"
+
+# in case of failure of this cluster :
+#
+# Example of step output:
+# 
+# TASK [runarsmith.ansible_collection.k8s_kind_cluster : Create kind cluster] *******************************************************************************************************
+# fatal: [localhost]: FAILED! => ...
+# ... "Command Output: Error response from daemon: Container xxxxxxxxxxxxxxx is not running"], "stdout": "", "stdout_lines": []}
+#
+# Strange behaviour...
+# 
+# Tip: purge all docker items :
+#  docker system prune -a --volumes
+#
+# Run :
+#   docker run -it --privileged --name kind-controle-plane kindest/node:v1.31.0
+# version "v1.31.0" is available from previous step output
+# this will create a few missing things I guess...
+# When this node has started, stop it :
+#   docker ps
+#   docker stop <ID>
+#   docker container ls --all
+#   docker container rm <ID>
+# Then re-ren this role
+
+# =========================================================
+# Wait cluster to be ready
+
+- name: Wait for all control-plane pods become created
+  shell: "kubectl get po --namespace=kube-system --selector tier=control-plane --output=jsonpath='{.items[*].metadata.name}'"
+  register: control_plane_pods_created
+  until: item in control_plane_pods_created.stdout
+  retries: 10
+  delay: 30
+  with_items:
+    - etcd
+    - kube-apiserver
+    - kube-controller-manager
+    - kube-scheduler
+
+- name: Wait for control-plane pods become ready
+  shell: "kubectl wait --namespace=kube-system --for=condition=Ready pods --selector tier=control-plane --timeout=600s"
+  register: control_plane_pods_ready
+
+- debug: var=control_plane_pods_ready.stdout_lines
+

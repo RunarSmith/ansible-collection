@@ -1,0 +1,17 @@
+---
+
+# need kind registry:
+# https://kind.sigs.k8s.io/docs/user/local-registry/
+
+# the local registry have an IP address on host, and its name is not known
+# here we statically add this name to IP translation
+# another way could be to configure coreDNS, not tested..
+
+- name: Get Kind cluster nodes
+  command: kind get nodes
+  register: kind_nodes
+  changed_when: false
+
+- name: Add registry entry to /etc/hosts on each node
+  command: docker exec {{ item }} sh -c "echo '{{ ansible_default_ipv4.address }} kind-registry' >> /etc/hosts"
+  loop: "{{ kind_nodes.stdout_lines }}"
