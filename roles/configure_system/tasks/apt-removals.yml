@@ -15,5 +15,7 @@
       - mkdocs-material 
       - mkdocs-material-extensions
 
+      - ansible        # obsolete packges versions
+
     state: "absent"
     autoremove: true

@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for tmux
+
+- ansible.builtin.include_tasks: "tmux.yml"

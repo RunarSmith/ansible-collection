@@ -1,0 +1,14 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for apt-update
+
+
+- name: "Updating & upgrading via apt repo"
+  apt:
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+    #force_apt_get: yes
+    cache_valid_time: 3600
+    upgrade: full
+  become: true

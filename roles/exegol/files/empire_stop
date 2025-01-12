@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# stop MySQL
-# pid file is configured in : /etc/mysql/mysql.conf.d/mysqld.cnf
-pidfile=$(grep pid-file /etc/mysql/mysql.conf.d/mysqld.cnf | cut -d '=' -f 2 | tr -d ' ')
-kill $(cat $pidfile)

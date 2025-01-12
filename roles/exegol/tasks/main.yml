@@ -71,42 +71,41 @@
     group: "{{ ansible_user_id }}"
     mode: "0644"
 
-- name: "[Exegol] Install exegol via pip"
-  become: true
-  pip:
+# - name: "[Exegol] Install exegol via pip"
+#   become: true
+#   pip:
+#     name: exegol
+#     state: latest
+#   when: ansible_os_family == "Debian"
+
+# - name: "[Exegol] Install exegol via apt"
+#   become: true
+#   apt:
+#     name: exegol
+#     state: present
+#   when: ansible_lsb.id == "Kaisen"
+
+- name: "[Exegol] Install exegol via pipx"
+  community.general.pipx:
     name: exegol
     state: latest
-  when: ansible_os_family == "Parrot OS"
-
-- name: "[Exegol] Install exegol via apt"
-  become: true
-  apt:
-    name: exegol
-    state: present
-  when: ansible_lsb.id == "Kaisen"
 
 - name: "[Exegol] Copy custom load_user_setup.sh"
   ansible.builtin.copy:
     src: load_user_setup.sh
     dest: "{{ exegol.my_resources }}/setup/load_user_setup.sh"
 
-- name: "[Exegol] Include Chisel"
-  ansible.builtin.include: myres-chisel.yml
-
 - name: "[Exegol] Include ssh"
-  ansible.builtin.include: myres-ssh.yml
+  ansible.builtin.include_tasks: myres-ssh.yml
 
 - name: "[Exegol] Include Zsh"
-  ansible.builtin.include: myres-zshrc.yml
+  ansible.builtin.include_tasks: myres-zshrc.yml
 
 - name: "[Exegol] Include tmux"
-  ansible.builtin.include: myres-tmux.yml
+  ansible.builtin.include_tasks: myres-tmux.yml
 
 - name: "[Exegol] Include python3"
-  ansible.builtin.include: myres-python3.yml
+  ansible.builtin.include_tasks: myres-python3.yml
 
 - name: "[Exegol] Include user setup"
-  ansible.builtin.include: myres-user-setup.yml
-
-- name: "[Exegol] Include Empire"
-  ansible.builtin.include: myres-empire.yml
+  ansible.builtin.include_tasks: myres-user-setup.yml

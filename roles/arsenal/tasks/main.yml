@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for arsenal
+
+- fail: msg="The variable 'tools_root_path' is not defined"
+  when: tools_root_path is undefined
+
+- name: "create directories"
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ tools_root_path }}"
+  become: true
+
+- ansible.builtin.include_tasks: arsenal.yml

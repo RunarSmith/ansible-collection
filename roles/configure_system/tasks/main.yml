@@ -1,22 +1,20 @@
 ---
 
-- name: "create directories"
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-    mode: '0755'
-  loop:
-    - "{{ resources_root_path }}"
-    - "{{ tools_root_path }}"
-    - /usr/local/bin/
-  become: true
+# - name: "create directories"
+#   ansible.builtin.file:
+#     path: "{{ item }}"
+#     state: directory
+#     mode: '0755'
+#   loop:
+#     - "{{ resources_root_path }}"
+#     - "{{ tools_root_path }}"
+#     - /usr/local/bin/
+#   become: true
 
 
 - ansible.builtin.include_tasks: "apt.yml"
 
 - ansible.builtin.include_tasks: "apt-removals.yml"
-
-- ansible.builtin.include_tasks: apt-misc-stuff.yml
 
 - ansible.builtin.include_tasks: "auditd.yml"
   when: "'hosts_WSL' not in group_names"
@@ -31,7 +29,7 @@
   when: "'hosts_WSL' not in group_names"
 
 - ansible.builtin.include_tasks: "sudoers.yml"
+  when: "'hosts_WSL' not in group_names"
 
 - ansible.builtin.include_tasks: "ufw.yml"
   when: "'hosts_WSL' not in group_names"
-

@@ -17,12 +17,10 @@ cp /opt/my-resources/setup/ssh/config ~/.ssh/config
 
 # Custom
 
-pushd /opt/
-
-git clone https://github.com/t3l3machus/Villain
-cd ./Villain
-pip3 install -r requirements.txt
-chmod +x ./Villain.py
-
-popd
+#pushd /opt/
+#git clone https://github.com/t3l3machus/Villain
+#cd ./Villain
+#pip3 install -r requirements.txt
+#chmod +x ./Villain.py
+#popd
 

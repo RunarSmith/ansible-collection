@@ -1,0 +1,7 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for arsenal
+
+
+tools_root_path: /opt/local/tools
+
